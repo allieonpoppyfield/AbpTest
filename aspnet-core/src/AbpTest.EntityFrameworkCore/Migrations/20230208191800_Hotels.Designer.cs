@@ -4,6 +4,7 @@ using AbpTest.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace AbpTest.Migrations
 {
     [DbContext(typeof(AbpTestDbContext))]
-    partial class AbpTestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230208191800_Hotels")]
+    partial class Hotels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace AbpTest.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Hotels", (string)null);
+                    b.ToTable("Hotels");
                 });
 
             modelBuilder.Entity("AbpTest.Entities.HotelRoomCategory", b =>
@@ -62,7 +65,7 @@ namespace AbpTest.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HotelRoomCategories", (string)null);
+                    b.ToTable("HotelRoomCategories");
                 });
 
             modelBuilder.Entity("HotelHotelRoomCategory", b =>
@@ -77,7 +80,7 @@ namespace AbpTest.Migrations
 
                     b.HasIndex("HotelsId");
 
-                    b.ToTable("HotelHotelRoomCategory", (string)null);
+                    b.ToTable("HotelHotelRoomCategory");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

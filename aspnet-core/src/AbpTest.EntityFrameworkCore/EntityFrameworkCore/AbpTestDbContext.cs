@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AbpTest.Entities;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -51,6 +52,9 @@ public class AbpTestDbContext :
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
     #endregion
+
+    public DbSet<Hotel> Hotels { get; set; }
+    public DbSet<HotelRoomCategory> HotelRoomCategories { get; set; }
 
     public AbpTestDbContext(DbContextOptions<AbpTestDbContext> options)
         : base(options)
