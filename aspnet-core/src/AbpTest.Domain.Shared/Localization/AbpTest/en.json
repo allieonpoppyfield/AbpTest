@@ -3,6 +3,17 @@
   "texts": {
     "Menu:Home": "Home",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "AbpTest:00001": "There is already a hotel with the same name: {name}",
+    "Permission:AbpTest": "AbpTest",
+    "Permission:Hotels": "Hotel Management",
+    "Permission:Hotels.Create": "Creating new hotels",
+    "Permission:Hotels.Edit": "Editing the hotels",
+    "Permission:Hotels.Delete": "Deleting the hotels",
+
+    "Permission:RoomCategories": "Room Categories Management",
+    "Permission:RoomCategories.Create": "Creating new room categories",
+    "Permission:RoomCategories.Edit": "Editing the room categories",
+    "Permission:RoomCategories.Delete": "Deleting the room categories"
   }
 }

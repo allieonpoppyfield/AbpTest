@@ -4,6 +4,19 @@ public static class AbpTestPermissions
 {
     public const string GroupName = "AbpTest";
 
-    //Add your own permission names. Example:
-    //public const string MyPermission1 = GroupName + ".MyPermission1";
+    public static class Hotels
+    {
+        public const string Default = GroupName + ".Hotels";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
+
+    public static class RoomCategories
+    {
+        public const string Default = GroupName + ".RoomCategories";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }
