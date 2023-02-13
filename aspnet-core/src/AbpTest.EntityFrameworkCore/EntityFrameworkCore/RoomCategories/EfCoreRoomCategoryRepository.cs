@@ -16,12 +16,9 @@ public class EfCoreRoomCategoryRepository : EfCoreRepository<AbpTestDbContext, R
     public EfCoreRoomCategoryRepository(IDbContextProvider<AbpTestDbContext> dbContextProvider) : base(dbContextProvider)
     { }
 
-
     public async Task<List<RoomCategory>> GetListByHotelIdAsync(Guid hotelId, int skipCount, int maxResultCount, string sorting, string filter)
     {
         var dbSet = await GetDbSetAsync();
-        return await dbSet.Where(x => x.HotelId == hotelId).ToListAsync();
+        return await dbSet.Where(x => x.HotelId == hotelId).Include(x => x.RoomCategoryImages).ToListAsync();
     }
-
-    public async Task<RoomCategory> CreateAsync(CreateRoomca)
 }

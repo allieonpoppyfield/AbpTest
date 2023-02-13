@@ -11,4 +11,5 @@ public interface IHotelRepository : IRepository<Hotel, Guid>
 {
     Task<Hotel> FindByNameAsync(string name);
     Task<List<Hotel>> GetListAsync(int skipCount, int maxResultCount, string sorting, string filter);
+    Task<Hotel> GetHotelAsync(Guid id);
 }

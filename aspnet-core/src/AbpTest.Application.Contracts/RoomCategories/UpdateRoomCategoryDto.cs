@@ -1,22 +1,14 @@
-﻿using AbpTest.Hotels;
-using AbpTest.RoomCategoryImages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Volo.Abp.Domain.Entities.Auditing;
 
 namespace AbpTest.RoomCategories;
 
-public class RoomCategory : FullAuditedAggregateRoot<Guid>
+public class UpdateRoomCategoryDto
 {
     [Required]
-    public Guid HotelId { get; set; }
-    public Hotel Hotel { get; set; }
-    
+    public Guid Id { get; set; }
     [Required]
     public string Name { get; set; }
     [Required]
@@ -28,6 +20,4 @@ public class RoomCategory : FullAuditedAggregateRoot<Guid>
     [Required]
     [Range(0, double.MaxValue)]
     public decimal PriceForDoublePlacement { get; set; }
-
-    public List<RoomCategoryImage> RoomCategoryImages { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿//using AbpTest.Entities;
+using AbpTest.HotelImages;
 using AbpTest.RoomCategories;
 using JetBrains.Annotations;
 using System;
@@ -22,4 +23,5 @@ public class Hotel : FullAuditedAggregateRoot<Guid>
     [Range(0, double.MaxValue)]
     public decimal PriceFrom { get; set; }
     public List<RoomCategory> RoomCategories { get; set; }
+    public List<HotelImage> HotelImages { get; set; }
 }

@@ -1,5 +1,8 @@
-﻿using AbpTest.Hotels;
+﻿using AbpTest.HotelImages;
+using AbpTest.Hotels;
+using AbpTest.Images;
 using AbpTest.RoomCategories;
+using AbpTest.RoomCategoryImages;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -57,6 +60,8 @@ public class AbpTestDbContext :
 
     public DbSet<Hotel> Hotels { get; set; }
     public DbSet<RoomCategory> RoomCategories { get; set; }
+    public DbSet<HotelImage> HotelImages { get; set; }
+    public DbSet<RoomCategoryImage> RoomCategoryImages { get; set; }
 
     public AbpTestDbContext(DbContextOptions<AbpTestDbContext> options)
         : base(options)
@@ -95,7 +100,24 @@ public class AbpTestDbContext :
             b.Property(x => x.AreaFrom).IsRequired();
             b.Property(x => x.PriceForDoublePlacement).IsRequired();
             b.Property(x => x.PriceForDoublePlacement).IsRequired();
-            b.HasOne<Hotel>().WithMany().HasForeignKey(x => x.HotelId).IsRequired();
+        });
+
+        builder.Entity<HotelImage>(b =>
+        {
+            b.ToTable(AbpTestConsts.DbTablePrefix + "HotelImages", AbpTestConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Name).IsRequired().HasMaxLength(ImageConsts.MaxNameLength);
+            b.Property(x => x.Content).IsRequired();
+            b.Property(x => x.Extension).IsRequired().HasMaxLength(ImageConsts.MaxExtensionLength);
+        });
+
+        builder.Entity<RoomCategoryImage>(b =>
+        {
+            b.ToTable(AbpTestConsts.DbTablePrefix + "RoomCategoryImages", AbpTestConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Name).IsRequired().HasMaxLength(ImageConsts.MaxNameLength);
+            b.Property(x => x.Content).IsRequired();
+            b.Property(x => x.Extension).IsRequired().HasMaxLength(ImageConsts.MaxExtensionLength);
         });
 
         /* Configure your own tables/entities inside here */

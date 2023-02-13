@@ -13,6 +13,6 @@ public interface IHotelAppService : IApplicationService
     Task<HotelDto> GetAsync(Guid id);
     Task<PagedResultDto<HotelDto>> GetListAsync(GetHotelListDto input);
     Task<HotelDto> CreateAsync(CreateHotelDto input);
-    Task UpdateAsync(Guid id, UpdateHotelDto input);
     Task DeleteAsync(Guid id);
+    Task<HotelDto> UpdateAsync(UpdateHotelDto input);
 }

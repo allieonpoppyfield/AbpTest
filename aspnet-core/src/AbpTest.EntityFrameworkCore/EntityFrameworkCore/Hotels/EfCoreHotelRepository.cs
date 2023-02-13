@@ -28,7 +28,14 @@ public class EfCoreHotelRepository : EfCoreRepository<AbpTestDbContext, Hotel, G
         return await dbSet
             .WhereIf(!filter.IsNullOrWhiteSpace(), hotel => hotel.Name.Contains(filter)).OrderBy(sorting)
             .Skip(skipCount)
-            .Take(maxResultCount)
+            .Take(maxResultCount).Include(x => x.RoomCategories).ThenInclude(x => x.RoomCategoryImages) //Здесь вопрос, нужно ли их сразу тащить, либо подгружать по "Активному действию из ТЗ", в любом случае, метод для отдельной подгрузки тоже реализован
+            .Include(x => x.HotelImages)
             .ToListAsync();
+    }
+
+    public async Task<Hotel> GetHotelAsync(Guid id)
+    {
+        var dbSet = await GetDbSetAsync();
+        return await dbSet.Include(x => x.RoomCategories).ThenInclude(x => x.RoomCategoryImages).Include(x => x.HotelImages).FirstOrDefaultAsync(hotel => hotel.Id == id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using AbpTest.Permissions;
+﻿using AbpTest.HotelImages;
+using AbpTest.Permissions;
 using AbpTest.RoomCategories;
 using Microsoft.AspNetCore.Authorization;
 using System;
@@ -11,26 +12,27 @@ using Volo.Abp.Domain.Repositories;
 
 namespace AbpTest.Hotels;
 
-//[Authorize(AbpTestPermissions.Hotels.Default)]
+[Authorize(AbpTestPermissions.Hotels.Default)]
 public class HotelAppService : AbpTestAppService, IHotelAppService
 {
     private readonly IHotelRepository _hotelRepository;
+    private readonly IRoomCategoryAppService _roomCategoryAppService;
+    private readonly IHotelImageAppService _hotelImageAppService;
 
-    public HotelAppService(IHotelRepository hotelRepository)
+    public HotelAppService(IHotelRepository hotelRepository, IRoomCategoryAppService roomCategoryAppService, IHotelImageAppService hotelImageAppService)
     {
         _hotelRepository = hotelRepository;
+        _roomCategoryAppService = roomCategoryAppService;
+        _hotelImageAppService = hotelImageAppService;
     }
 
-    //[Authorize(AbpTestPermissions.Hotels.Create)]
+    [Authorize(AbpTestPermissions.Hotels.Create)]
     public async Task<HotelDto> CreateAsync(CreateHotelDto input)
     {
-        Hotel hotel = new()
-        {
-            Name = input.Name,
-            Link = input.Link,
-            PriceFrom = input.PriceFrom
-        };
+        Hotel hotel = new() { Name = input.Name, Link = input.Link, PriceFrom = input.PriceFrom };
         await _hotelRepository.InsertAsync(hotel, true);
+        await _roomCategoryAppService.CreateListForHotelAsync(hotel.Id, input.RoomCategories);
+        await _hotelImageAppService.CreateListForHotelAsync(hotel.Id, input.HotelImages);
         return ObjectMapper.Map<Hotel, HotelDto>(hotel);
     }
 
@@ -38,11 +40,13 @@ public class HotelAppService : AbpTestAppService, IHotelAppService
     public async Task DeleteAsync(Guid id)
     {
         await _hotelRepository.DeleteAsync(id);
+        await _roomCategoryAppService.DeleteByHotelIdAsync(id);
+        await _hotelImageAppService.DeleteByHotelIdAsync(id);
     }
 
     public async Task<HotelDto> GetAsync(Guid id)
     {
-        var hotel = await _hotelRepository.GetAsync(id);
+        var hotel = await _hotelRepository.GetHotelAsync(id);
         return ObjectMapper.Map<Hotel, HotelDto>(hotel);
     }
 
@@ -60,12 +64,13 @@ public class HotelAppService : AbpTestAppService, IHotelAppService
     }
 
     [Authorize(AbpTestPermissions.Hotels.Edit)]
-    public async Task UpdateAsync(Guid id, UpdateHotelDto input)
+    public async Task<HotelDto> UpdateAsync(UpdateHotelDto input)
     {
-        var hotel = await _hotelRepository.GetAsync(id);
+        var hotel = await _hotelRepository.GetAsync(input.Id);
         hotel.Name = input.Name;
         hotel.Link = input.Link;
         hotel.PriceFrom = input.PriceFrom;
         await _hotelRepository.UpdateAsync(hotel);
+        return ObjectMapper.Map<Hotel, HotelDto>(hotel);    
     }
 }
